@@ -1,0 +1,15 @@
+{
+  "name": "learning-rust-nodejs",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/index.js",
+  "author": "Tony Narlock <tony@git-pull.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "neon-cli": "^0.10.1"
+  },
+  "scripts": {
+    "install": "neon build"
+  }
+}
