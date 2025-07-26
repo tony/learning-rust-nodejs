@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Tony Narlock <tony@git-pull.com>"]
 license = "MIT"
 build = "build.rs"
-edition = "2018"
+edition = "2024"
 exclude = ["artifacts.json", "index.node"]
 
 [lib]
