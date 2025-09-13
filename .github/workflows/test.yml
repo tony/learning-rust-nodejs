@@ -31,11 +31,21 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: "pnpm"
 
-    - name: Setup Python (for node-gyp on macOS)
-      if: runner.os == 'macOS'
+    - name: Setup Python (for node-gyp)
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
+
+    - name: Setup MSBuild
+      if: runner.os == 'Windows'
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Install node-gyp dependencies on Windows
+      if: runner.os == 'Windows'
+      run: |
+        npm install --global node-gyp@latest
+        node-gyp install
+      shell: powershell
 
     - name: Setup Rust
       uses: dtolnay/rust-toolchain@stable
