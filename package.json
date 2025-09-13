@@ -7,6 +7,9 @@
   "license": "UNLICENSED",
   "private": true,
   "packageManager": "pnpm@10.16.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "neon-cli": "^0.10.1"
   },

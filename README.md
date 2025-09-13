@@ -4,7 +4,7 @@ A Neon project demonstrating Rust-Node.js interoperability. This project uses [N
 
 ## Prerequisites
 
-- Node.js (>= 10.x)
+- Node.js (>= 20.x)
 - Rust (>= 1.85.0)
 - pnpm
 
