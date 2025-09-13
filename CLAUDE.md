@@ -23,7 +23,7 @@ Key components:
 ### Building the project
 ```bash
 # Install dependencies and build the native module
-npm install
+pnpm install
 
 # Or build the native module explicitly
 neon build
@@ -56,7 +56,11 @@ node lib/index.js
 ## Development Workflow
 
 1. Rust code changes: Edit files in `native/src/`
-2. Rebuild: Run `neon build` or `npm install` from the project root
+2. Rebuild: Run `neon build` or `pnpm install` from the project root
 3. Test: Run `node lib/index.js` or integrate the module in your Node.js application
 
 The Neon build system handles the complexity of cross-compilation and binding generation between Rust and Node.js.
+
+## Package Management
+
+This project uses pnpm with corepack for package management. The package manager version is pinned in `package.json` using the `packageManager` field. Corepack ensures everyone uses the same version of pnpm.
