@@ -11,6 +11,14 @@
     "neon-cli": "^0.10.1"
   },
   "scripts": {
-    "install": "neon build"
+    "install": "neon build",
+    "prebuild": "cd native && cargo clean",
+    "build": "neon build --release",
+    "build:dev": "neon build",
+    "pretest": "npm run lint && cd native && cargo test",
+    "test": "node lib/index.js",
+    "lint": "cd native && cargo fmt -- --check && cargo clippy -- -D warnings",
+    "lint:fix": "cd native && cargo fmt",
+    "check": "cd native && cargo check"
   }
 }
