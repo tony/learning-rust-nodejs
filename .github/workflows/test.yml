@@ -18,6 +18,10 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [20.x, 22.x, 24.x]
         rust: [stable]
+        exclude:
+          # Node 20 has issues with node-gyp on Windows
+          - os: windows-latest
+            node-version: 20.x
 
     steps:
     - uses: actions/checkout@v4
@@ -44,8 +48,11 @@ jobs:
       if: runner.os == 'Windows'
       run: |
         npm install --global node-gyp@latest
-        node-gyp install
-      shell: powershell
+        node-gyp install --verbose
+        node-gyp list
+      shell: cmd
+      env:
+        npm_config_msvs_version: 2022
 
     - name: Setup Rust
       uses: dtolnay/rust-toolchain@stable
@@ -73,6 +80,9 @@ jobs:
 
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
+      env:
+        npm_config_msvs_version: 2022
+        npm_config_build_from_source: true
 
     - name: Run Rust formatting check
       run: cd native && cargo fmt -- --check
