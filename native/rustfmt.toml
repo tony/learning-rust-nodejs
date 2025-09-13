@@ -1,0 +1,6 @@
+# Rust 2024 edition formatting configuration
+style_edition = "2024"
+
+# Optional: Additional formatting preferences
+max_width = 100
+use_small_heuristics = "Default"
