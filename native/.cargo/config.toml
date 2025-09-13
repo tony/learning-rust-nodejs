@@ -1,0 +1,17 @@
+# Cargo configuration for Rust 2024 edition
+
+[build]
+# Use the 2024 edition resolver for dependency resolution
+# This is automatically enabled with edition = "2024" but we're being explicit
+rustflags = ["-W", "rust-2024-compatibility"]
+
+# Optional: Set target for optimized builds
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+
+# Optional: Development profile optimizations
+[profile.dev]
+opt-level = 0
+debug = true
