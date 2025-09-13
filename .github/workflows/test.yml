@@ -19,9 +19,11 @@ jobs:
         node-version: [20.x, 22.x, 24.x]
         rust: [stable]
         exclude:
-          # Node 20 has issues with node-gyp on Windows
+          # Node 20 and 24 require newer C++ standards not supported by Neon 0.10.1 on Windows
           - os: windows-latest
             node-version: 20.x
+          - os: windows-latest
+            node-version: 24.x
 
     steps:
     - uses: actions/checkout@v4
