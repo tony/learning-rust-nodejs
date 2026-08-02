@@ -3,19 +3,12 @@ name = "learning-rust-nodejs"
 version = "0.1.0"
 authors = ["Tony Narlock <tony@git-pull.com>"]
 license = "MIT"
-build = "build.rs"
 edition = "2024"
-exclude = ["artifacts.json", "index.node"]
-
-[lints.rust]
-unexpected_cfgs = "allow"
+exclude = ["index.node"]
 
 [lib]
 name = "learning_rust_nodejs"
 crate-type = ["cdylib"]
 
-[build-dependencies]
-neon-build = "0.10.1"
-
 [dependencies]
-neon = "0.10.1"
+neon = "1.1.1"

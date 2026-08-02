@@ -16,14 +16,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [20.x, 22.x, 24.x]
+        node-version: [20.x, 22.x, 24.x, 26.x]
         rust: [stable]
-        exclude:
-          # Node 20 and 24 require newer C++ standards not supported by Neon 0.10.1 on Windows
-          - os: windows-latest
-            node-version: 20.x
-          - os: windows-latest
-            node-version: 24.x
 
     steps:
     - uses: actions/checkout@v7
@@ -36,25 +30,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: "pnpm"
-
-    - name: Setup Python (for node-gyp)
-      uses: actions/setup-python@v7
-      with:
-        python-version: '3.11'
-
-    - name: Setup MSBuild
-      if: runner.os == 'Windows'
-      uses: microsoft/setup-msbuild@v3
-
-    - name: Install node-gyp dependencies on Windows
-      if: runner.os == 'Windows'
-      run: |
-        npm install --global node-gyp@latest
-        node-gyp install --verbose
-        node-gyp list
-      shell: cmd
-      env:
-        npm_config_msvs_version: 2022
 
     - name: Setup Rust
       uses: dtolnay/rust-toolchain@stable
@@ -82,9 +57,6 @@ jobs:
 
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
-      env:
-        npm_config_msvs_version: 2022
-        npm_config_build_from_source: true
 
     - name: Run Rust formatting check
       run: cd native && cargo fmt -- --check

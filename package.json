@@ -10,14 +10,13 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "neon-cli": "^0.10.1"
+  "devDependencies": {
+    "cargo-cp-artifact": "^0.1.9"
   },
   "scripts": {
-    "install": "neon build",
-    "prebuild": "cd native && cargo clean",
-    "build": "neon build --release",
-    "build:dev": "neon build",
+    "cargo-build": "cd native && cargo-cp-artifact -a cdylib learning-rust-nodejs index.node -- cargo build --message-format=json-render-diagnostics",
+    "build": "pnpm run cargo-build --release",
+    "build:dev": "pnpm run cargo-build",
     "pretest": "npm run lint && cd native && cargo test",
     "test": "node lib/index.js",
     "lint": "cd native && cargo fmt -- --check && cargo clippy -- -D warnings",

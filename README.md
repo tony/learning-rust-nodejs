@@ -1,6 +1,8 @@
 # learning-rust-nodejs
 
-A Neon project demonstrating Rust-Node.js interoperability. This project uses [Neon](https://neon-bindings.com/) to build native Node.js modules in Rust.
+A Neon project demonstrating Rust-Node.js interoperability. This project uses [Neon](https://neon-bindings.com/) 1.x to build native Node.js modules in Rust.
+
+Neon 1.x is built on [Node-API](https://nodejs.org/api/n-api.html), so the compiled addon links no V8 C++ symbols and stays loadable across Node major versions without a rebuild.
 
 ## Prerequisites
 
@@ -16,19 +18,25 @@ A Neon project demonstrating Rust-Node.js interoperability. This project uses [N
 │   └── index.js        # Node.js entry point
 ├── native/
 │   ├── Cargo.toml      # Rust project configuration
-│   ├── build.rs        # Rust build script
 │   └── src/
-│       └── lib.rs      # Rust native module implementation
+│       ├── lib.rs      # Rust native module implementation
+│       └── logic.rs    # Pure Rust logic (unit tested)
 ├── package.json        # Node.js project configuration
 └── README.md
 ```
 
 ## Installation
 
-Install dependencies and build the native module:
+Install dependencies:
 
 ```bash
 pnpm install
+```
+
+Then build the native module:
+
+```bash
+pnpm run build:dev
 ```
 
 ## Development
@@ -89,17 +97,19 @@ cd native
 
 **Node.js commands** (run from project root):
 ```bash
-neon build
+pnpm run build:dev
 node lib/index.js
 ```
 
-- `neon build` - Build native module
+- `pnpm run build:dev` - Build native module
 - `node lib/index.js` - Run the example
+
+The build scripts wrap [`cargo-cp-artifact`](https://www.npmjs.com/package/cargo-cp-artifact), which runs `cargo build` and copies the resulting `cdylib` to `native/index.node`.
 
 ## Testing
 
 The project includes:
-- Rust unit tests (currently none defined)
+- Rust unit tests in `native/src/logic.rs`
 - Node.js integration test (runs the module and verifies output)
 
 Run all tests:
@@ -118,11 +128,12 @@ This creates an optimized release build of the native module.
 ## How it Works
 
 1. The Rust code in `native/src/lib.rs` defines functions that can be called from JavaScript
-2. Neon provides the bridge between Rust and Node.js, handling:
+2. `#[neon::main]` marks the module entry point; it registers the addon with Node-API and exports each function via `cx.export_function`
+3. Neon provides the bridge between Rust and Node.js, handling:
    - Type conversions between Rust and JavaScript
    - Memory management
    - Function registration
-3. The built native module is loaded by `lib/index.js` and can be used like any other Node.js module
+4. The built native module is loaded by `lib/index.js` and can be used like any other Node.js module
 
 ## Example Usage
 
@@ -146,7 +157,10 @@ If you encounter build errors:
 
 2. Clean and rebuild:
    ```bash
-   npm run prebuild  # Cleans Rust build artifacts
+   cd native && cargo clean
+   ```
+
+   ```bash
    npm run build:dev
    ```
 
