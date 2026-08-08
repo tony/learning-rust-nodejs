@@ -6,7 +6,7 @@ Neon 1.x is built on [Node-API](https://nodejs.org/api/n-api.html), so the compi
 
 ## Prerequisites
 
-- Node.js (>= 20.x)
+- Node.js (>= 22.13)
 - Rust (>= 1.85.0)
 - pnpm
 
